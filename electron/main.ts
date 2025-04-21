@@ -14,7 +14,7 @@ function createWindow() {
       contextIsolation: true,
     },
   });
-  win.webContents.openDevTools();
+  // win.webContents.openDevTools();
   win.loadURL('http://localhost:5173');
 }
 
