@@ -2,6 +2,8 @@ import { contextBridge, ipcRenderer } from 'electron';
 
 contextBridge.exposeInMainWorld('electronAPI', {
   openFile: () => ipcRenderer.invoke('dialog:openFile'),
-  readFile: (path: string) => ipcRenderer.invoke('fs:readFile', path),
-  getGitLog: () => ipcRenderer.invoke('git:getLog')
+  readFile: (p: string) => ipcRenderer.invoke('fs:read', p),
+  writeFile: (p: string, c: string) => ipcRenderer.invoke('fs:write', p, c),
+  getAutosavePath: () => ipcRenderer.invoke('app:getAutosavePath'),
+  getGitLog: () => ipcRenderer.invoke('git:getLog'),
 });

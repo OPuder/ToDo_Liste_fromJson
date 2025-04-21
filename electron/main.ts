@@ -14,12 +14,19 @@ function createWindow() {
       contextIsolation: true,
     },
   });
-
+  win.webContents.openDevTools();
   win.loadURL('http://localhost:5173');
 }
 
 app.whenReady().then(() => {
   createWindow();
+
+  // Handler für Autosave-Pfad
+  ipcMain.handle('app:getAutosavePath', () => {
+    const dir = path.join(app.getPath('userData'), 'ToDo-Tool');
+    fs.mkdirSync(dir, { recursive: true });
+    return path.join(dir, 'autosave.json');
+  });
 });
 
 ipcMain.handle('dialog:openFile', async () => {
@@ -27,18 +34,22 @@ ipcMain.handle('dialog:openFile', async () => {
   return result.filePaths[0];
 });
 
-ipcMain.handle('fs:readFile', async (_, filePath) => {
-  return fs.readFileSync(filePath, 'utf-8');
+ipcMain.handle('fs:write', async (_, filepath: string, content: string) => {
+  try { fs.writeFileSync(filepath, content); return true; }
+  catch { return false; }
+});
+
+ipcMain.handle('fs:read', async (_, filepath: string) => {
+  try { return fs.readFileSync(filepath, 'utf-8'); }
+  catch { return null; }
 });
 
 ipcMain.handle('git:getLog', async () => {
-  return new Promise((resolve) => {
+  return new Promise<string>((resolve) => {
     exec('git log --pretty=format:"%h - %s (%ci)" --abbrev-commit', (err, stdout) => {
-      if (err) {
-        resolve("⚠️ Git-Log nicht verfügbar: Projekt ist kein Git-Repo.");
-      } else {
-        resolve(stdout);
-      }
+      resolve(err ? "⚠️ Git-Log nicht verfügbar: Projekt ist kein Git-Repo." : stdout);
     });
   });
 });
+
+export {};
