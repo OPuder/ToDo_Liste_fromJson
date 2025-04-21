@@ -1,13 +1,8 @@
-import { defineConfig } from 'tailwindcss';
+import { defineConfig } from 'vite'
+import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
-  content: [
-    './index.html',
-    './src/**/*.{js,ts,jsx,tsx}',
-    './electron/**/*.{ts,js}',
+  plugins: [
+    tailwindcss(),
   ],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-});
+})

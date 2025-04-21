@@ -14,6 +14,7 @@
     "electron:dev": "concurrently \"vite\" \"wait-on http://localhost:5173 && npm run electron:build && npm run electron:start\""
   },
   "dependencies": {
+    "@tailwindcss/vite": "^4.1.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

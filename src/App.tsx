@@ -1,4 +1,3 @@
-import "./index.css";
 import { useState, useEffect } from "react";
 
 interface TaskEntry {
@@ -115,15 +114,12 @@ function App() {
   return (
     <div className="p-6 space-y-4 max-w-4xl mx-auto">
       <h1 className="text-3xl font-bold text-center">🧪 ToDo Listen Tool</h1>
-      <div className="bg-red-500 text-white p-4">
-  ✅ Tailwind läuft!
-</div>
       {/* Fortschrittsbalken */}
       <div className="w-full bg-gray-200 rounded-full h-4 mb-2 overflow-hidden">
         {/* Innen‑Div: Breite wird dynamisch per JS gesetzt */}
         <div
           className="bg-green-500 h-full rounded-full transition-all duration-300"
-          style={{ width: "50%" }} // hardcoded für Test
+          style={{ width: `${overallPercent}%` }}
         />
       </div>
       <p className="text-sm text-center text-gray-600">
