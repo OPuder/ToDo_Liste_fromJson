@@ -1,6 +1,6 @@
 {
   "name": "todo-liste-fromjson",
-  "main": "electron/main.ts",
+  "main": "electron/dist/main.cjs",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,9 +10,10 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "electron:build": "node electron/prebuild/build-all.js",
-    "electron:start": "electron electron/dist/main.cjs",
-    "electron:dev": "concurrently \"vite\" \"wait-on http://localhost:5173 && npm run electron:build && npm run electron:start\""
-  },
+    "electron:start": "electron ./electron/dist/main.cjs",
+    "electron:dev": "concurrently \"vite\" \"wait-on http://localhost:5173 && npm run electron:build && npm run electron:start\"",
+    "electron:package": "electron-packager . todo-liste-fromjson --platform=win32 --arch=x64 --out=release-build --overwrite" 
+   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.4",
     "react": "^19.0.0",

@@ -3,19 +3,27 @@ import fs from 'fs';
 import path from 'path';
 import { exec } from 'child_process';
 
-const __dirname = path.resolve();
+const isDev = false;
 
 function createWindow() {
   const win = new BrowserWindow({
     width: 600,
     height: 800,
     webPreferences: {
-      preload: path.join(__dirname, 'electron/dist/preload.js'),
+      preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
     },
   });
-  // win.webContents.openDevTools();
-  win.loadURL('http://localhost:5173');
+  if (isDev) {
+    // Dev-Modus → lade vom lokalen Server (vite)
+    win.loadURL("http://localhost:5173");
+  } else {
+    // Build-Modus → lade die gebaute HTML-Datei
+    const filePath = path.join(__dirname, "../../dist/index.html");
+    console.log(">>> __dirname ist:", __dirname);
+    console.log(">>> Lade:", filePath);
+    win.loadFile(filePath);
+  }
 }
 
 app.whenReady().then(() => {
